@@ -6087,10 +6087,10 @@ hipo-contract@^1.0.0:
   dependencies:
     ethers "^5.5.4"
 
-hipo-wallet@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/hipo-wallet/-/hipo-wallet-1.0.1.tgz#4c4843312a046ec6d14d95a1c8bf1c2e2f063e88"
-  integrity sha512-unBbni0uA0aKMBU9Z5S+AxkMra6ShZO8G84RQYziGl/O5Kj480a2BVojACtIm5ENKyl/YFiMUujWfljkz7Bqhw==
+hipo-wallet@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/hipo-wallet/-/hipo-wallet-1.0.2.tgz#8b1355daa3a094ee895297abde4743fad2c3e6e3"
+  integrity sha512-JtM54VLXIPp0bdG2kMhE8nlwqWJ+Bz0e44dF45SROZ2WonCA7FC0gCT+ZJQ+6n9dG5mdFp6bGWqOM56TBX8FTw==
   dependencies:
     "@ethersproject/bignumber" "^5.4.2"
     "@ethersproject/experimental" "^5.5.0"
