@@ -1,7 +1,7 @@
-import {HipoSdk, WalletType, HipoContract} from 'hipo-sdk'
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { HipoSdkContext, useHooks } from './App';
-
+import {HipoWallet, WalletType, HipoContract} from 'hipo-sdk'
+import { useContext, useEffect, useMemo } from 'react';
+import { HipoWalletContext, useHooks } from './App';
+import {Main} from './Main'
 
 var config = {
 	// chainID
@@ -16,7 +16,7 @@ var config = {
 }
 
 export function Connect () {
-	const {  walletType, setWalletType, contract, setContract } = useContext(HipoSdkContext)
+	const {  walletType, setWalletType, contract, setContract } = useContext(HipoWalletContext)
 	const { useChainId, useAccounts, useIsActive, useProvider, useError, useIsActivating } = useHooks(walletType  as any)
 	const err = useError()
 	const isActive = useIsActive()
@@ -25,15 +25,10 @@ export function Connect () {
 	const accounts =  useAccounts()
 	const provider = useProvider()
 
-	// useEffect(() => {
-	// 	err && HipoSdk.init()
-	// }, [err])
-  console.log(err)
 	useEffect(() => {
 		if (contract) {
 			return
 		}
-
 		if (provider && chainId && (accounts as string[]).length ) {
 			setContract(
 				new HipoContract({
@@ -44,20 +39,35 @@ export function Connect () {
 				}) as HipoContract
 			)
 		}
-	}, [provider, chainId, accounts])  
+	}, [provider, chainId, accounts]) 
+	
+	useEffect(() => {
+		if (!contract) {
+			return
+		}
+		
+		if (accounts?.length) {
+			contract?.setAccount((accounts as any)[0])
+		}
+
+		if (provider) {
+			contract?.setProvider(provider)
+		}
+	}, [accounts, provider])
+
 	useEffect(() => {
 	  const walletType =  localStorage.getItem('walletType') as WalletType
 	  if (walletType) {
 		setWalletType(walletType as any)
 	  }
 	}, [])
+	
   
 	const isLogin = useMemo(() => {
-		console.log(isActive, 'isActive')
 	  return isActive && walletType
 	}, [isActive, walletType, chainId])
   
-	function setA (str: any) {
+	function setType (str: any) {
 	  localStorage.setItem('walletType', str)
 	  setWalletType(str as any)
 	}
@@ -65,17 +75,17 @@ export function Connect () {
 	function connectBtn() {
 	  return <>
 		<hr />
-		<div>
+		<div style={{margin: '20px'}}>
 		  <button onClick={() => {
-			HipoSdk.connect('metaMask').then(() => {
-			  setA('metaMask')
+			HipoWallet.connect('metaMask').then(() => {
+				setType('metaMask')
 			})
 		  }}>metaMask</button>
 		</div>
 		<div>
 		  <button onClick={() => {
-			HipoSdk.connect('walletLink').then((data: any) => {
-			  setA('walletLink')
+			HipoWallet.connect('walletLink').then((data: any) => {
+				setType('walletLink')
 			})
 		  }
 		  }>walletLink</button>
@@ -90,48 +100,24 @@ export function Connect () {
 		<p>accounts: {accounts}</p>
 		<button onClick={() => {
 		  const walletType = (localStorage.getItem('walletType') || 'metaMask') as WalletType
-		  HipoSdk.disconnect(walletType)
+		  HipoWallet.disconnect(walletType)
 		  localStorage.removeItem('walletType')
 		  setContract(null)
 		}}>断开按钮</button>
 		<hr></hr>
-		<button onClick={() => {
-			contract?.sign('123')
-		}}>签名</button>
-
-		&nbsp;&nbsp;
-		<button onClick={() => {
-			contract?.ERC20?.approve('0x475EbfBF2367d5C42f55bd997f9E65D8b35Ded65', '0x4F091e8f52092E7Ce70Fc385ae3B2d1301476293', '100')
-			.then((res) => {
-				console.log(res)
-			}).catch((err) => {
-				console.log(err)
-			})
-		}}>授权</button>
-		&nbsp;&nbsp;
-		<button onClick={() => {
-			contract?.sign('123')
-		}}>充值</button>
-		&nbsp;&nbsp;
-		<button onClick={() => {
-			contract?.sign('123')
-		}}>提现</button>
+		<Main />
 	  </>
 	}
 
 	return <div>
-			 	{
-			err 
-			&& 
-			<span>
-				{err.message}
-				|   --- {err.name}
+		{
+			err  &&  <span>
+				{err.message} |   --- {err.name}
 			</span>
 		}
 		{
 			isActivating ? 'true' : 'false'
 		}
 		{isLogin ? connectingEle() : connectBtn() }
-	</div>
-	
+	</div>	
 }

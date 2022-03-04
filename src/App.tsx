@@ -1,43 +1,43 @@
-import { HipoContract, HipoSdk } from 'hipo-sdk';
+import { HipoContract, HipoWallet } from 'hipo-sdk';
 import { createContext, useMemo, useState } from 'react';
 import './App.css';
 import { Connect } from './Connect';
-import PriorityExample from './components/connectors/PriorityExample'
+// import PriorityExample from './components/connectors/PriorityExample'
 
 
 export function useHooks (type: string) {
 	return useMemo(() => {
-	  return HipoSdk.getHooks(type as any)
+	  return HipoWallet.getHooks(type as any)
 	}, [type])
 }
 
-interface HipoSdkContextProps {
+interface HipoWalletContextProps {
   walletType: string
   setWalletType: (value: string) => void
   contract: HipoContract | null
   setContract: (value: HipoContract | null) => void
 }
 
-export const HipoSdkContext = createContext<HipoSdkContextProps>({} as HipoSdkContextProps)
+export const HipoWalletContext = createContext<HipoWalletContextProps>({} as HipoWalletContextProps)
 
 function App() {
 	const [walletType, setWalletType] = useState('')
 	const [contract, setContract] = useState<HipoContract | null>(null)
   
-  const value: HipoSdkContextProps  = {
+  const value: HipoWalletContextProps  = {
     walletType,
     setWalletType,
     contract,
     setContract
   }
   return (
-    <HipoSdkContext.Provider value={value}>
+    <HipoWalletContext.Provider value={value}>
       <div className="App">
-      <PriorityExample/>
+      {/* <PriorityExample/> */}
       <div>{walletType}</div>
         <Connect />
       </div>
-    </HipoSdkContext.Provider>
+    </HipoWalletContext.Provider>
   );
 }
 

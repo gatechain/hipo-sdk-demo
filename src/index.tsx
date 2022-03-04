@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { HipoSdk } from 'hipo-sdk';
+import { HipoWallet } from 'hipo-sdk';
 
 
 function render(props: any) {
   const { container } = props;
-  HipoSdk.init()
+  HipoWallet.init()
 
   ReactDOM.render(
     <React.StrictMode>
