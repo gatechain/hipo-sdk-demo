@@ -13,16 +13,12 @@ export const Main:FC = () => {
 		if (!contract) {
 			return
 		}
+		console.log('contract', accounts)
 		getBalance()
 		getApproveStatus()
 	// eslint-disable-next-line
-	}, [contract])
+	}, [contract, accounts])
 
-	useEffect(() => {
-		getBalance()
-		getApproveStatus()
-	// eslint-disable-next-line
-	}, [accounts])
 
 	useEffect(() => {
 		getApproveStatus()

@@ -55,8 +55,12 @@ export function Connect () {
 		if (provider) {
 			contract?.setProvider(provider)
 		}
+
+		if (chainId) {
+			contract?.setChainId(chainId)
+		}
 	// eslint-disable-next-line
-	}, [accounts, provider])
+	}, [accounts, provider, chainId])
 
 	useEffect(() => {
 	  const walletType =  localStorage.getItem('walletType') as WalletType
