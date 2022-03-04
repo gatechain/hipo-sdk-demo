@@ -15,15 +15,18 @@ export const Main:FC = () => {
 		}
 		getBalance()
 		getApproveStatus()
+	// eslint-disable-next-line
 	}, [contract])
 
 	useEffect(() => {
 		getBalance()
 		getApproveStatus()
+	// eslint-disable-next-line
 	}, [accounts])
 
 	useEffect(() => {
 		getApproveStatus()
+	// eslint-disable-next-line
 	}, [value])
 	
 	function getApproveStatus () {

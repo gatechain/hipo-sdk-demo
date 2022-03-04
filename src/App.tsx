@@ -3,7 +3,6 @@ import { HipoContract } from 'hipo-contract'
 import { createContext, useMemo, useState } from 'react';
 import './App.css';
 import { Connect } from './Connect';
-// import PriorityExample from './components/connectors/PriorityExample'
 
 
 export function useHooks (type: string) {
@@ -34,7 +33,6 @@ function App() {
   return (
     <HipoWalletContext.Provider value={value}>
       <div className="App">
-      {/* <PriorityExample/> */}
       <div>{walletType}</div>
         <Connect />
       </div>

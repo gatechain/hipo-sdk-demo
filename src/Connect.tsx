@@ -40,6 +40,7 @@ export function Connect () {
 				}) as HipoContract
 			)
 		}
+	// eslint-disable-next-line
 	}, [provider, chainId, accounts]) 
 	
 	useEffect(() => {
@@ -54,6 +55,7 @@ export function Connect () {
 		if (provider) {
 			contract?.setProvider(provider)
 		}
+	// eslint-disable-next-line
 	}, [accounts, provider])
 
 	useEffect(() => {
@@ -61,11 +63,13 @@ export function Connect () {
 	  if (walletType) {
 		setWalletType(walletType as any)
 	  }
+	// eslint-disable-next-line
 	}, [])
 	
   
 	const isLogin = useMemo(() => {
 	  return isActive && walletType
+	// eslint-disable-next-line
 	}, [isActive, walletType, chainId])
   
 	function setType (str: any) {
