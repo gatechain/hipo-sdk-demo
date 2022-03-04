@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { walletLink, walletLinkHooks } from 'hipo-sdk'
+import { walletLink, walletLinkHooks } from 'hipo-wallet'
 // import { Accounts } from '../Accounts'
 import { Card } from '../Card'
 // import { Chain } from '../Chain'

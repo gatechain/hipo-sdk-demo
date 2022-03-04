@@ -1,4 +1,5 @@
-import { HipoContract, HipoWallet } from 'hipo-sdk';
+import { HipoWallet } from 'hipo-wallet';
+import { HipoContract } from 'hipo-contract'
 import { createContext, useMemo, useState } from 'react';
 import './App.css';
 import { Connect } from './Connect';

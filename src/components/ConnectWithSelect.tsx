@@ -1,4 +1,4 @@
-import { MetaMask, Network, WalletConnect, WalletLink, Web3ReactHooks } from 'hipo-sdk'
+import { MetaMask, Network, WalletConnect, WalletLink, Web3ReactHooks } from 'hipo-wallet'
 import { useCallback, useState } from 'react'
 import { CHAINS, getAddChainParameters, URLS } from '../chains'
 

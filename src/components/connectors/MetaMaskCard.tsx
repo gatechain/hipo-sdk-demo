@@ -1,8 +1,6 @@
 import { useEffect } from 'react'
-import { metaMaskHooks, metaMask } from 'hipo-sdk'
-// import { Accounts } from '../Accounts'
+import { metaMaskHooks, metaMask } from 'hipo-wallet'
 import { Card } from '../Card'
-// import { Chain } from '../Chain'
 import { ConnectWithSelect } from '../ConnectWithSelect'
 import { Status } from '../Status'
 
@@ -17,9 +15,7 @@ export default function MetaMaskCard() {
   const isActive = useIsActive()
 
   const provider = useProvider()
-  const ENSNames = useENSNames(provider)
 
-  // attempt to connect eagerly on mount
   useEffect(() => {
     void metaMask.connectEagerly()
   }, [])
@@ -34,8 +30,6 @@ export default function MetaMaskCard() {
         <p>isActive: {isActive ? 'true' : 'false'}</p>
         <Status isActivating={isActivating} error={error} isActive={isActive} />
         <div style={{ marginBottom: '1rem' }} />
-        {/* <Chain chainId={chainId} />
-        <Accounts accounts={accounts} provider={provider} ENSNames={ENSNames} /> */}
       </div>
       <div style={{ marginBottom: '1rem' }} />
       <ConnectWithSelect

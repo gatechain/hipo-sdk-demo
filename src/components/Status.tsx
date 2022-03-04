@@ -1,4 +1,4 @@
-import type { Web3ReactHooks } from 'hipo-sdk'
+import type { Web3ReactHooks } from 'hipo-wallet'
 
 export function Status({
   isActivating,

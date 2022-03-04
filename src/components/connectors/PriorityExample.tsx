@@ -1,5 +1,5 @@
-import { Network, MetaMask,metaMaskHooks, metaMask, getPriorityConnector, WalletConnect, WalletLink } from 'hipo-sdk'
-import type { Connector } from 'hipo-sdk'
+import { Network, MetaMask,metaMaskHooks, metaMask, getPriorityConnector, WalletConnect, WalletLink } from 'hipo-wallet'
+import type { Connector } from 'hipo-wallet'
 
 function getName(connector: Connector) {
   if (connector instanceof MetaMask) return 'MetaMask'

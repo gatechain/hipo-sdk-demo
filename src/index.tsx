@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { HipoWallet } from 'hipo-sdk';
+import { HipoWallet } from 'hipo-wallet';
 
 
 function render(props: any) {

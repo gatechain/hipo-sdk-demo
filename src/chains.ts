@@ -1,4 +1,4 @@
-import type { AddEthereumChainParameter } from 'hipo-sdk'
+import type { AddEthereumChainParameter } from 'hipo-wallet'
 
 const ETH: AddEthereumChainParameter['nativeCurrency'] = {
   name: 'Ether',

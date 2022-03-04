@@ -1,4 +1,5 @@
-import {HipoWallet, WalletType, HipoContract} from 'hipo-sdk'
+import {HipoWallet, WalletType} from 'hipo-wallet'
+import {HipoContract} from 'hipo-contract'
 import { useContext, useEffect, useMemo } from 'react';
 import { HipoWalletContext, useHooks } from './App';
 import {Main} from './Main'

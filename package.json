@@ -12,6 +12,8 @@
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
     "buffer": "^6.0.3",
+    "hipo-contract": "https://github.com/gatechain/hipo-contract.git",
+    "hipo-wallet": "https://github.com/gatechain/hipo-wallet.git",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
@@ -42,8 +44,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "node-polyfill-webpack-plugin": "^1.1.4"
   }
 }
