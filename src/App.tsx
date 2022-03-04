@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import { HipoContract, HipoSdk } from 'hipo-sdk';
+import { createContext, useMemo, useState } from 'react';
 import './App.css';
+import { Connect } from './Connect';
+import PriorityExample from './components/connectors/PriorityExample'
+
+
+export function useHooks (type: string) {
+	return useMemo(() => {
+	  return HipoSdk.getHooks(type as any)
+	}, [type])
+}
+
+interface HipoSdkContextProps {
+  walletType: string
+  setWalletType: (value: string) => void
+  contract: HipoContract | null
+  setContract: (value: HipoContract | null) => void
+}
+
+export const HipoSdkContext = createContext<HipoSdkContextProps>({} as HipoSdkContextProps)
 
 function App() {
+	const [walletType, setWalletType] = useState('')
+	const [contract, setContract] = useState<HipoContract | null>(null)
+  
+  const value: HipoSdkContextProps  = {
+    walletType,
+    setWalletType,
+    contract,
+    setContract
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HipoSdkContext.Provider value={value}>
+      <div className="App">
+      <PriorityExample/>
+      <div>{walletType}</div>
+        <Connect />
+      </div>
+    </HipoSdkContext.Provider>
   );
 }
 
 export default App;
+
