@@ -6080,15 +6080,17 @@ he@^1.2.0:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-"hipo-contract@https://github.com/gatechain/hipo-contract.git":
+hipo-contract@^1.0.0:
   version "1.0.0"
-  resolved "https://github.com/gatechain/hipo-contract.git#63c73664b2cbae4aac696723e6f0ff4e086f2477"
+  resolved "https://registry.yarnpkg.com/hipo-contract/-/hipo-contract-1.0.0.tgz#860858ce7d69b4e39c864e9c644fc6e45c87035c"
+  integrity sha512-1PxJykFGkflOINxdi/m/fiFwD+DEhgSqK0FFuPxnwALdC+m9AE9I1k8BkzkLLvv2l8yDpm/NVAiSduEv2+byKw==
   dependencies:
     ethers "^5.5.4"
 
-"hipo-wallet@https://github.com/gatechain/hipo-wallet.git":
-  version "1.0.0"
-  resolved "https://github.com/gatechain/hipo-wallet.git#686d6485aa38706494c3ced997a4ba5b501136b7"
+hipo-wallet@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/hipo-wallet/-/hipo-wallet-1.0.1.tgz#4c4843312a046ec6d14d95a1c8bf1c2e2f063e88"
+  integrity sha512-unBbni0uA0aKMBU9Z5S+AxkMra6ShZO8G84RQYziGl/O5Kj480a2BVojACtIm5ENKyl/YFiMUujWfljkz7Bqhw==
   dependencies:
     "@ethersproject/bignumber" "^5.4.2"
     "@ethersproject/experimental" "^5.5.0"
