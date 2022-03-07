@@ -3,18 +3,7 @@ import {HipoContract} from 'hipo-contract'
 import { useContext, useEffect, useMemo } from 'react';
 import { HipoWalletContext, useHooks } from './App';
 import {Main} from './Main'
-
-var config = {
-	// chainID
-	85: {
-		perpetualContract: {
-			// 合约地址
-			address: '0x4F091e8f52092E7Ce70Fc385ae3B2d1301476293'
-		},
-		// 币的地址 (USDT)
-		usdt: '0x475EbfBF2367d5C42f55bd997f9E65D8b35Ded65',
-	}
-}
+import { config } from './config'
 
 export function Connect () {
 	const {  walletType, setWalletType, contract, setContract } = useContext(HipoWalletContext)
@@ -128,5 +117,5 @@ export function Connect () {
 			isActivating ? 'true' : 'false'
 		}
 		{isLogin ? connectingEle() : connectBtn() }
-	</div>	
+	</div>
 }

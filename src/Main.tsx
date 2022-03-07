@@ -1,19 +1,30 @@
-import { ChangeEvent, FC, useContext, useEffect, useState } from "react"
+import { ChangeEvent, FC, useContext, useEffect, useMemo, useState } from "react"
 import { HipoWalletContext, useHooks } from "./App"
+import {config} from './config'
+
+const token = '0x475EbfBF2367d5C42f55bd997f9E65D8b35Ded65'
 
 export const Main:FC = () => {
 	const {contract, walletType} = useContext(HipoWalletContext)
-	const { useAccounts} = useHooks(walletType  as any)
+	const { useAccounts, useChainId} = useHooks(walletType  as any)
 	const [balance, setBalance] = useState('0')
 	const [value, setValue] = useState('0')
+	const chainId = useChainId()
 	const [approveStatus, setApproveStatus] = useState(0)
 	const accounts = useAccounts()
+
+	const perpetualContractAddress = useMemo(() => {
+		if (chainId && (config as any)[chainId]) {
+			return (config as any)[chainId]?.perpetualContractAddress
+		}
+		return null
+	}, 
+	[chainId])
 
 	useEffect(() => {
 		if (!contract) {
 			return
 		}
-		console.log('contract', accounts)
 		getBalance()
 		getApproveStatus()
 	// eslint-disable-next-line
@@ -27,8 +38,8 @@ export const Main:FC = () => {
 	
 	function getApproveStatus () {
 		contract?.ERC20.getApproveStatus(
-			'0x475EbfBF2367d5C42f55bd997f9E65D8b35Ded65',
-			'0x4F091e8f52092E7Ce70Fc385ae3B2d1301476293',
+			token,
+			perpetualContractAddress,
 			value
 		).then((data) => {
 			setApproveStatus(data)
@@ -37,7 +48,7 @@ export const Main:FC = () => {
 
 	// 获取余额
 	function getBalance() {
-		contract?.perpetual.getWithdrawalBalance('0x475EbfBF2367d5C42f55bd997f9E65D8b35Ded65').then(data => {
+		contract?.perpetual.getWithdrawalBalance(token).then(data => {
 			setBalance(data.toString())
 		}).catch(error => {
 			console.log(error, 'error --- banlance')
@@ -65,7 +76,7 @@ export const Main:FC = () => {
 			// 0 需要授权 ， 1 不需要授权
 			approveStatus === 0
 			?  <button onClick={() => {
-				contract?.ERC20?.approve('0x475EbfBF2367d5C42f55bd997f9E65D8b35Ded65', '0x4F091e8f52092E7Ce70Fc385ae3B2d1301476293', value)
+				contract?.ERC20?.approve(token, perpetualContractAddress, value)
 				.then(async (res) => {
 					console.log('授权中')
 					await res.wait()
@@ -77,7 +88,7 @@ export const Main:FC = () => {
 			}}>授权</button>
 			:
 			<button onClick={() => {
-				contract?.perpetual.deposit('0x475EbfBF2367d5C42f55bd997f9E65D8b35Ded65', value).then(async (data) => {
+				contract?.perpetual.deposit(token, value).then(async (data) => {
 					console.log('充值中...')
 					await data.wait()
 					console.log('充值成功')
@@ -85,10 +96,9 @@ export const Main:FC = () => {
 			}}>充值</button>
 		}
 		
-	
 		&nbsp;&nbsp;
 		<button onClick={() => {
-			 contract?.perpetual.withdraw('0x475EbfBF2367d5C42f55bd997f9E65D8b35Ded65').then(async (data) => {
+			 contract?.perpetual.withdraw(token).then(async (data) => {
 				 console.log('提现中...')
 				 await data.wait()
 				 console.log('提现成功')
