@@ -4,6 +4,7 @@ import { useContext, useEffect, useMemo } from 'react';
 import { HipoWalletContext, useHooks } from './App';
 import {Main} from './Main'
 import { config } from './config'
+import { useUpdateEffect } from 'ahooks';
 
 export function Connect () {
 	const {  walletType, setWalletType, contract, setContract } = useContext(HipoWalletContext)
@@ -16,9 +17,18 @@ export function Connect () {
 	const provider = useProvider()
 
 	useEffect(() => {
+		const walletType =  localStorage.getItem('walletType') as WalletType
+		if (walletType) {
+			setWalletType(walletType as any)
+		}
+	// eslint-disable-next-line
+	}, [])
+
+	useEffect(() => {
 		if (contract) {
 			return
 		}
+		
 		if (provider && chainId && (accounts as string[]).length ) {
 			setContract(
 				new HipoContract({
@@ -30,34 +40,26 @@ export function Connect () {
 			)
 		}
 	// eslint-disable-next-line
-	}, [provider, chainId, accounts]) 
+	}, [provider, chainId, accounts])
 	
-	useEffect(() => {
+	// 更改accounts、chainId  的时候，需要重新实例化
+	useUpdateEffect(() => {
 		if (!contract) {
 			return
 		}
-		
-		if (accounts?.length) {
-			contract?.setAccount((accounts as any)[0])
-		}
 
-		if (provider) {
-			contract?.setProvider(provider)
-		}
-
-		if (chainId) {
-			contract?.setChainId(chainId)
+		if ((chainId !== contract.chainId || (accounts as any)[0] !== contract.currAccount) && provider  ) {
+			setContract(
+				new HipoContract({
+					provider,
+					chainId,
+					currAccount: accounts ? accounts[0] : '',
+					config
+				}) as HipoContract
+			)
 		}
 	// eslint-disable-next-line
 	}, [accounts, provider, chainId])
-
-	useEffect(() => {
-	  const walletType =  localStorage.getItem('walletType') as WalletType
-	  if (walletType) {
-		setWalletType(walletType as any)
-	  }
-	// eslint-disable-next-line
-	}, [])
 	
   
 	const isLogin = useMemo(() => {
@@ -88,9 +90,21 @@ export function Connect () {
 		  }
 		  }>walletLink</button>
 		</div>
+		<div style={{margin: '20px'}}>
+		  <button onClick={() => {
+			HipoWallet.connect('walletConnect').then((data: any) => {
+				setType('walletConnect')
+			})
+		  }
+		  }>walletConnect</button>
+		</div>
 		<hr />
 	  </>
 	}
+
+	const checkChain = useMemo(() => {
+		return chainId && (config as any)[chainId]
+	}, [chainId])
   
 	function connectingEle () {
 	 return <>
@@ -98,12 +112,16 @@ export function Connect () {
 		<p>accounts: {accounts}</p>
 		<button onClick={() => {
 		  const walletType = (localStorage.getItem('walletType') || 'metaMask') as WalletType
-		  HipoWallet.disconnect(walletType)
-		  localStorage.removeItem('walletType')
 		  setContract(null)
+		  localStorage.removeItem('walletType')
+		  HipoWallet.disconnect(walletType)
 		}}>断开按钮</button>
 		<hr></hr>
-		<Main />
+		{
+			checkChain 
+			?  <Main />
+			: <p>请切换到 85链</p>
+		}
 	  </>
 	}
 

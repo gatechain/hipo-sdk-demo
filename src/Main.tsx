@@ -1,4 +1,5 @@
-import { ChangeEvent, FC, useContext, useEffect, useMemo, useState } from "react"
+import { useUpdateEffect } from "ahooks"
+import { ChangeEvent, FC, useContext, useMemo, useState } from "react"
 import { HipoWalletContext, useHooks } from "./App"
 import {config} from './config'
 
@@ -8,7 +9,7 @@ export const Main:FC = () => {
 	const {contract, walletType} = useContext(HipoWalletContext)
 	const { useAccounts, useChainId} = useHooks(walletType  as any)
 	const [balance, setBalance] = useState('0')
-	const [value, setValue] = useState('0')
+	const [value, setValue] = useState('1')
 	const chainId = useChainId()
 	const [approveStatus, setApproveStatus] = useState(0)
 	const accounts = useAccounts()
@@ -21,7 +22,7 @@ export const Main:FC = () => {
 	}, 
 	[chainId])
 
-	useEffect(() => {
+	useUpdateEffect(() => {
 		if (!contract) {
 			return
 		}
@@ -31,7 +32,7 @@ export const Main:FC = () => {
 	}, [contract, accounts])
 
 
-	useEffect(() => {
+	useUpdateEffect(() => {
 		getApproveStatus()
 	// eslint-disable-next-line
 	}, [value])
@@ -48,10 +49,9 @@ export const Main:FC = () => {
 
 	// 获取余额
 	function getBalance() {
-		contract?.perpetual.getWithdrawalBalance(token).then(data => {
+		contract?.perpetual?.getWithdrawalBalance(token).then(data => {
 			setBalance(data.toString())
 		}).catch(error => {
-			console.log(error, 'error --- banlance')
 			setBalance('0')
 		})
 	}
