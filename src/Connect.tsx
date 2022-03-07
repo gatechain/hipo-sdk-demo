@@ -90,14 +90,6 @@ export function Connect () {
 		  }
 		  }>walletLink</button>
 		</div>
-		<div style={{margin: '20px'}}>
-		  <button onClick={() => {
-			HipoWallet.connect('walletConnect').then((data: any) => {
-				setType('walletConnect')
-			})
-		  }
-		  }>walletConnect</button>
-		</div>
 		<hr />
 	  </>
 	}
