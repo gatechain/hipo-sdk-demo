@@ -21,7 +21,7 @@ export function Connect () {
 		if (walletType) {
 			setWalletType(walletType as any)
 		}
-	// eslint-disable-next-line
+		// eslint-disable-next-line
 	}, [])
 
 	useEffect(() => {
@@ -90,6 +90,14 @@ export function Connect () {
 		  }
 		  }>walletLink</button>
 		</div>
+		<div>
+		  <button style={{margin: '20px'}} onClick={() => {
+			HipoWallet.connect('walletConnect').then((data: any) => {
+				setType('walletConnect')
+			})
+		  }
+		  }>walletConnect</button>
+		</div>
 		<hr />
 	  </>
 	}
@@ -112,7 +120,9 @@ export function Connect () {
 		{
 			checkChain 
 			?  <Main />
-			: <p>请切换到 85链</p>
+			: <p>
+				请切换到 85链 
+			</p>
 		}
 	  </>
 	}
@@ -121,6 +131,12 @@ export function Connect () {
 		{
 			err  &&  <span>
 				{err.message} |   --- {err.name}
+				<button onClick={() => {
+				const walletType = (localStorage.getItem('walletType') || 'metaMask') as WalletType
+				setContract(null)
+				localStorage.removeItem('walletType')
+				HipoWallet.disconnect(walletType)
+				}}>断开连接</button>
 			</span>
 		}
 		{
