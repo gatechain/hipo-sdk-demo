@@ -1,7 +1,6 @@
 import { useUpdateEffect } from "ahooks"
 import { ChangeEvent, FC, useContext, useMemo, useState } from "react"
 import { HipoWalletContext, useHooks } from "./App"
-import {intToFixed} from 'hipo-contract'
 import {config} from './config'
 
 const token = '0x475EbfBF2367d5C42f55bd997f9E65D8b35Ded65'
