@@ -10,6 +10,7 @@ export const Main:FC = () => {
 	const { useAccounts, useChainId} = useHooks(walletType  as any)
 	const [balance, setBalance] = useState('0')
 	const [value, setValue] = useState('1')
+	const [tokenBalance, setTokenBalance] = useState('')
 	const chainId = useChainId()
 	const [approveStatus, setApproveStatus] = useState(0)
 	const accounts = useAccounts()
@@ -70,6 +71,7 @@ export const Main:FC = () => {
 			const jsonData = JSON.stringify({test:'1', test2: '2'})
 			contract?.sign(jsonData).then(console.log).catch(console.log)
 		}}>签名</button>
+		
 
 		&nbsp;&nbsp;
 		{
@@ -105,5 +107,17 @@ export const Main:FC = () => {
 				 getBalance()
 			 })
 		 }}>提现</button>	
+		 <div>
+			 <input type="text" placeholder="请输入token地址" onChange={(e) => handleBlanceof(e.target.value)} />
+			 <p>token 余额: {tokenBalance}</p>
+		 </div>
 	</div>
+
+	function handleBlanceof(value: string) {
+		// 0xA08Bf99247CdF9B8D51dAd5C589ed782922A925c
+		contract?.ERC20?.getBalanceOf(value).then(([balanceStr, bigNumber]) => {
+			console.log(bigNumber.toString())
+			setTokenBalance(balanceStr)
+		})
+	}
 }
