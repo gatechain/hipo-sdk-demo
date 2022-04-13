@@ -1,19 +1,22 @@
 import { useUpdateEffect } from "ahooks"
 import { ChangeEvent, FC, useContext, useMemo, useState } from "react"
 import { HipoWalletContext, useHooks } from "./App"
+import {intToFixed} from 'hipo-contract'
 import {config} from './config'
 
 const token = '0x475EbfBF2367d5C42f55bd997f9E65D8b35Ded65'
 
 export const Main:FC = () => {
 	const {contract, walletType} = useContext(HipoWalletContext)
-	const { useAccounts, useChainId} = useHooks(walletType  as any)
+	const { useAccounts, useChainId, useProvider} = useHooks(walletType  as any)
 	const [balance, setBalance] = useState('0')
 	const [value, setValue] = useState('1')
 	const [tokenBalance, setTokenBalance] = useState('')
 	const chainId = useChainId()
 	const [approveStatus, setApproveStatus] = useState(0)
 	const accounts = useAccounts()
+	const provider = useProvider()
+	
 
 	const perpetualContractAddress = useMemo(() => {
 		if (chainId && (config as any)[chainId]) {
@@ -114,6 +117,11 @@ export const Main:FC = () => {
 	</div>
 
 	function handleBlanceof(value: string) {
+		// console.log(provider, '.provider')
+		// console.log(accounts)
+		(provider as any).getBalance((accounts as any[])[0]).then((data: any) => {
+			console.log(data)
+		})
 		// 0xA08Bf99247CdF9B8D51dAd5C589ed782922A925c
 		contract?.ERC20?.getBalanceOf(value).then(([balanceStr, bigNumber]) => {
 			console.log(bigNumber.toString())
