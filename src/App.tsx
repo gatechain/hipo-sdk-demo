@@ -37,7 +37,6 @@ function App() {
       <div className="App">
       <div>{walletType}</div>
       <button onClick={async () => {
-			console.log(contract)
 			const res = await contract?.createWalletFromEtherAccount()
 			console.log(res, 'res')
 			if (!res) {
@@ -45,13 +44,12 @@ function App() {
 			}
 
       const localData = JSON.parse(localStorage.getItem('accountAuthSignatures') as string) || {}
-      console.log(localData)
 
       const isNotAccountSignature = 
         (chainId && res.gateAddress && localData[chainId as number] && localData[chainId as number][res.gateAddress as string]) 
           ? false : true
 
-      console.log(isNotAccountSignature)
+      console.log(isNotAccountSignature, 'isNotAccountSignature')
       if (isNotAccountSignature) {
         const accountSignature = await contract?.signCreateAccountAuthorization() 
         const data = JSON.stringify({[chainId as number]: {
@@ -60,7 +58,7 @@ function App() {
         localStorage.setItem('accountAuthSignatures', data)
       }
 
-			}}>钱包签名</button>
+			}}>根据签名生成本地钱包</button>
       <button onClick={() => {
         const gateWallet = contract?.getGateWallet()
         const signTran = gateWallet.signTransaction({}, 12345)
