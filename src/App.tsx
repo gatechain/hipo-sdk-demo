@@ -22,6 +22,8 @@ export const HipoWalletContext = createContext<HipoWalletContextProps>({} as Hip
 
 function App() {
 	const [walletType, setWalletType] = useState('')
+  const {useChainId} = useHooks(walletType)
+  const chainId = useChainId()
 	const [contract, setContract] = useState<HipoContract | null>(null)
   
   const value: HipoWalletContextProps  = {
@@ -34,6 +36,36 @@ function App() {
     <HipoWalletContext.Provider value={value}>
       <div className="App">
       <div>{walletType}</div>
+      <button onClick={async () => {
+			console.log(contract)
+			const res = await contract?.createWalletFromEtherAccount()
+			console.log(res, 'res')
+			if (!res) {
+		  	return
+			}
+
+      const localData = JSON.parse(localStorage.getItem('accountAuthSignatures') as string) || {}
+      console.log(localData)
+
+      const isNotAccountSignature = 
+        (chainId && res.gateAddress && localData[chainId as number] && localData[chainId as number][res.gateAddress as string]) 
+          ? false : true
+
+      console.log(isNotAccountSignature)
+      if (isNotAccountSignature) {
+        const accountSignature = await contract?.signCreateAccountAuthorization() 
+        const data = JSON.stringify({[chainId as number]: {
+          [res.gateAddress]: accountSignature
+        }})
+        localStorage.setItem('accountAuthSignatures', data)
+      }
+
+			}}>钱包签名</button>
+      <button onClick={() => {
+        const gateWallet = contract?.getGateWallet()
+        const signTran = gateWallet.signTransaction({}, 12345)
+        console.log(signTran)
+      }}>签名交易</button>
         <Connect />
       </div>
     </HipoWalletContext.Provider>

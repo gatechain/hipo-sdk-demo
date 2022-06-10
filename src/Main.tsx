@@ -3,7 +3,7 @@ import { ChangeEvent, FC, useContext, useMemo, useState } from "react"
 import { HipoWalletContext, useHooks } from "./App"
 import {config} from './config'
 
-const token = '0x475EbfBF2367d5C42f55bd997f9E65D8b35Ded65'
+const token = '0xa1fDF3a05a5515AE309c28F35deF1fC33dBfb94d'
 
 export const Main:FC = () => {
 	const {contract, walletType} = useContext(HipoWalletContext)
@@ -112,6 +112,9 @@ export const Main:FC = () => {
 		 <div>
 			 <input type="text" placeholder="请输入token地址" onChange={(e) => handleBlanceof(e.target.value)} />
 			 <p>token 余额: {tokenBalance}</p>
+		 </div>
+		 
+		 <div>
 		 </div>
 	</div>
 
