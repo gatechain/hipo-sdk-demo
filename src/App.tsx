@@ -37,7 +37,7 @@ function App() {
       <div className="App">
       <div>{walletType}</div>
       <button onClick={async () => {
-			const res = await contract?.createWalletFromEtherAccount()
+			const res = await contract?.createWalletFromGateChainAccount()
 			console.log(res, 'res')
 			if (!res) {
 		  	return
