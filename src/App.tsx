@@ -3,6 +3,7 @@ import { HipoContract } from 'hipo-contract'
 import { createContext, useMemo, useState } from 'react';
 import './App.css';
 import { Connect } from './Connect';
+import _ from 'lodash'
 
 
 export function useHooks(type: string) {
@@ -16,6 +17,27 @@ interface HipoWalletContextProps {
   setWalletType: (value: string) => void
   contract: HipoContract | null
   setContract: (value: HipoContract | null) => void
+}
+
+function formatBigIntToString(data: any) {
+	function deep (val: any, key?: string) {
+		if (typeof val === 'bigint') {
+			key && _.set(data, key, val.toString())
+		}
+
+		if (Object.prototype.toString.call(val) === '[object Object]') {
+			Object.keys(val).map((_key) => {
+				const item = val[_key]
+				deep(item, key ? `${key}[${_key}]` : _key)
+			})
+		}
+
+		if (Array.isArray(val)) {
+			val.map((i, ind) => deep(i,`${key}[${ind}]`))
+		}
+	}
+	deep(data)
+	return data
 }
 
 export const HipoWalletContext = createContext<HipoWalletContextProps>({} as HipoWalletContextProps)
@@ -68,24 +90,10 @@ function App() {
           console.log(hashMessage, 'hashMessage')
           console.log(signature, 'signature')
           console.log(gateWallet.publicKey, 'publicKey')
-          // const signTran = gateWallet.signTransaction({}, 12345)
-          // console.log(signTran)
-
           const data = {
             "msg": hashMessage.toString(),
             "signature": signature,
             "pubKey": gateWallet.publicKey
-            // "signature": {
-            //   "R8": [
-            //     "19602813866576465703357186070219099591312511776598696092876895674233274777821",
-            //     "14670319256236932579150389587469015881234319764653910790111918192488121098327"
-            //   ],
-            //   "S": "1790112333443916037504914606358436526863740258642454905203401441393479332555"
-            // },
-            // "pubKey": [
-            //   "5400772877958519803378326692219798103688704552686062366482964182210824602355",
-            //   "20751553000921232316228202827791856383953826507774460151557834514296471506694"
-            // ]
           }
 
           const option = {
@@ -93,7 +101,7 @@ function App() {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(formatBigIntToString(data))
           }
 
           console.log(option)
