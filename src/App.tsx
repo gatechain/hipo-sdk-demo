@@ -106,7 +106,7 @@ function App() {
 
           console.log(option)
 
-          fetch('http://127.0.0.1:3000/verify', option).then(res => res.json())
+          fetch('http://127.0.0.1:3000/verify', option).then(res => (res.json())).then(res => alert(res))
         }}>签名交易</button>
         <Connect />
       </div>
