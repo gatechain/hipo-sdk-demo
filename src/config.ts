@@ -20,9 +20,17 @@ export const config = {
 	},
 	GateWalletConfig: {
 		METAMASK_MESSAGE,
-        EIP_712_PROVIDER,
-        EIP_712_VERSION,
-        CONTRACT_ADDRESSES,
-        CREATE_ACCOUNT_AUTH_MESSAGE
+    EIP_712_PROVIDER,
+    EIP_712_VERSION,
+    CONTRACT_ADDRESSES,
+    CREATE_ACCOUNT_AUTH_MESSAGE,
+    contractLeftMap: {
+      BTC: 0,
+      ETH: 1
+    },
+    contractRightMap: {
+        USDC: 0,
+        USDT: 1
+    }
 	}
 }

@@ -85,28 +85,38 @@ function App() {
         }}>根据签名生成本地钱包</button>
         <button onClick={() => {
           const gateWallet = contract?.getGateWallet()
-          const hashMessage = gateWallet.getHashMessage(12345);
-          const signature = gateWallet.getSignature({}, 12345)
-          console.log(hashMessage, 'hashMessage')
+          const tx = {
+            contract: "BTC_USDT",
+            price: "13458.9",
+            is_liq: false,
+            size: -10000,
+            user_id: 12
+          }
+          const { signature , hashMessage } = gateWallet.getSignature(tx, 'order')
+          // console.log(hashMessage, 'hashMessage')
           console.log(signature, 'signature')
-          console.log(gateWallet.publicKey, 'publicKey')
-          const data = {
-            "msg": hashMessage.toString(),
-            "signature": signature,
-            "pubKey": gateWallet.publicKey
-          }
+          const isTrur =  gateWallet.verifySignature(hashMessage, signature)
+          console.log(isTrur)
+          const txPackSignature = gateWallet.packSignature(tx, signature)
+          console.log(txPackSignature)
+          // console.log(gateWallet.publicKey, 'publicKey')
+          // const data = {
+          //   "msg": hashMessage.toString(),
+          //   "signature": signature,
+          //   "pubKey": gateWallet.publicKey
+          // }
 
-          const option = {
-            method: 'post',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formatBigIntToString(data))
-          }
+          // const option = {
+          //   method: 'post',
+          //   headers: {
+          //     'Content-Type': 'application/json'
+          //   },
+          //   body: JSON.stringify(formatBigIntToString(data))
+          // }
 
-          console.log(option)
+          // console.log(option)
 
-          fetch('http://127.0.0.1:3000/verify', option).then(res => res.json())
+          // fetch('http://127.0.0.1:3000/verify', option).then(res => res.json())
         }}>签名交易</button>
         <Connect />
       </div>
