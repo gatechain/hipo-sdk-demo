@@ -99,24 +99,24 @@ function App() {
           console.log(isTrur)
           const txPackSignature = gateWallet.packSignature(tx, signature)
           console.log(txPackSignature)
-          // console.log(gateWallet.publicKey, 'publicKey')
-          // const data = {
-          //   "msg": hashMessage.toString(),
-          //   "signature": signature,
-          //   "pubKey": gateWallet.publicKey
-          // }
+          console.log(gateWallet.publicKey, 'publicKey')
+          const data = {
+            "msg": hashMessage.toString(),
+            "signature": signature,
+            "pubKey": gateWallet.publicKey
+          }
 
-          // const option = {
-          //   method: 'post',
-          //   headers: {
-          //     'Content-Type': 'application/json'
-          //   },
-          //   body: JSON.stringify(formatBigIntToString(data))
-          // }
+          const option = {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formatBigIntToString(data))
+          }
 
-          // console.log(option)
+          console.log(option)
 
-          // fetch('http://127.0.0.1:3000/verify', option).then(res => res.json())
+          fetch('http://127.0.0.1:3000/verify', option).then(res => res.json())
         }}>签名交易</button>
         <Connect />
       </div>
