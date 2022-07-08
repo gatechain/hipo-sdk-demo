@@ -88,7 +88,6 @@ function App() {
           const tx = {
             contract: "BTC_USDT",
             price: "13458.9",
-            is_liq: false,
             size: -10000,
             user_id: 12
           }
@@ -101,7 +100,8 @@ function App() {
           console.log(txPackSignature)
           console.log(gateWallet.publicKey, 'publicKey')
           const data = {
-            "msg": hashMessage.toString(),
+            "tx":tx,
+            "type":"order",
             "signature": signature,
             "pubKey": gateWallet.publicKey
           }
