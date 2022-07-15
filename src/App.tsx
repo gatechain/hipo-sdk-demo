@@ -94,7 +94,7 @@ function App() {
           console.log(isTrur)
           const txPackSignature = gateWallet.packSignature(tx, signature)
           console.log(txPackSignature)
-          console.log(gateWallet.publicKey, 'publicKey -- 弓腰')
+          console.log(gateWallet.publicKey, 'publicKey -- 公钥')
           console.log(data, '服务端需要的验证数据')
 
         }}>签名交易</button>
