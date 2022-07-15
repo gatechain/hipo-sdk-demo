@@ -19,27 +19,6 @@ interface HipoWalletContextProps {
   setContract: (value: HipoContract | null) => void
 }
 
-function formatBigIntToString(data: any) {
-	function deep (val: any, key?: string) {
-		if (typeof val === 'bigint') {
-			key && _.set(data, key, val.toString())
-		}
-
-		if (Object.prototype.toString.call(val) === '[object Object]') {
-			Object.keys(val).map((_key) => {
-				const item = val[_key]
-				deep(item, key ? `${key}[${_key}]` : _key)
-			})
-		}
-
-		if (Array.isArray(val)) {
-			val.map((i, ind) => deep(i,`${key}[${ind}]`))
-		}
-	}
-	deep(data)
-	return data
-}
-
 export const HipoWalletContext = createContext<HipoWalletContextProps>({} as HipoWalletContextProps)
 
 function App() {
@@ -84,39 +63,40 @@ function App() {
 
         }}>根据签名生成本地钱包</button>
         <button onClick={() => {
+          // 生成本地钱包
           const gateWallet = contract?.getGateWallet()
+          // order,cancelOrder的交易体
           const tx = {
             contract: "BTC_USDT",
             price: "13458.9",
             size: -10000,
             user_id: 12
           }
-          const { signature , hashMessage } = gateWallet.getSignature(tx, 'order')
-          // console.log(hashMessage, 'hashMessage')
+          // withdraw的交易体
+          // const tx = {
+          //   user_id: 12,
+          //   amount: 10000
+          // }
+          console.log(tx, 'tx交易体(order,cancelOrder,withdraw)')
+          /**
+           * @param {Object} tx - 交易体
+           * @param {String} type - order,cancelOrder,withdraw 
+           * 
+           * @return  {
+           *            signature: Object - 签名
+           *            hashMessage: BigInt - 交易体压缩后的数据
+           *            data: Object - 服务端验签数据
+           *          }
+           */
+          const { signature , hashMessage, data } = gateWallet.getSignature(tx, 'cancelOrder')
           console.log(signature, 'signature')
           const isTrur =  gateWallet.verifySignature(hashMessage, signature)
           console.log(isTrur)
           const txPackSignature = gateWallet.packSignature(tx, signature)
           console.log(txPackSignature)
-          console.log(gateWallet.publicKey, 'publicKey')
-          const data = {
-            "tx":tx,
-            "type":"order",
-            "signature": signature,
-            "pubKey": gateWallet.publicKey
-          }
+          console.log(gateWallet.publicKey, 'publicKey -- 弓腰')
+          console.log(data, '服务端需要的验证数据')
 
-          const option = {
-            method: 'post',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formatBigIntToString(data))
-          }
-
-          console.log(option)
-
-          fetch('http://127.0.0.1:3000/verify', option).then(res => res.json())
         }}>签名交易</button>
         <Connect />
       </div>
