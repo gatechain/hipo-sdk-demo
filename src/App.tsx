@@ -47,10 +47,13 @@ function App() {
       <div className="App">
         <div>{walletType}</div>
         <button onClick={async () => {
-          // 刷新之后，重新生成钱包
+          const privateKeyHex = localStorage.getItem(`privateKeyHex_${account}`)
+          if (privateKeyHex) {
+            alert('已经存在私钥，和eddsa 钱包, 可以直接进行订单签名')
+            return
+          }
+          
           // 第一步生成钱包
-        
-
           // 1.1. Metamask 对指定字符串签名，通过签名派生 eddsa 钱包
           const res = await contract?.createWalletFromGateChainAccount()
           console.log(res?.gateWallet.privateKeyHex, 'res')
@@ -85,7 +88,7 @@ function App() {
         <button onClick={() => {
           // 获取本地钱包
           const gateWallet = contract?.getGateWallet()
-          
+
           // order,cancelOrder的交易体
           const tx = {
             contract: "BTC_USDT",
