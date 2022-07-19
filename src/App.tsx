@@ -29,6 +29,8 @@ function App() {
   // const [gateWallet, setGateWallet] = useState(null)
   const [contract, setContract] = useState<HipoContract | null>(null)
 
+  const [userId, setUserId] = useState('5')
+
   const value: HipoWalletContextProps = {
     walletType,
     setWalletType,
@@ -52,7 +54,7 @@ function App() {
             alert('已经存在私钥，和eddsa 钱包, 可以直接进行订单签名')
             return
           }
-          
+
           // 第一步生成钱包
           // 1.1. Metamask 对指定字符串签名，通过签名派生 eddsa 钱包
           const res = await contract?.createWalletFromGateChainAccount()
@@ -83,6 +85,21 @@ function App() {
               }
             })
             localStorage.setItem('accountAuthSignatures', data)
+
+            const option = {
+              method: 'post',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-gate-user-id': userId
+              },
+              body: JSON.stringify({
+                signature: accountSignature.signature,
+                BJJKey: accountSignature.BJJKey
+              })
+            }
+
+            console.log(option)
+            fetch('http://127.0.0.1:3000/bind', option).then(res => res.json())
           }
         }}>根据签名生成本地钱包</button>
         <button onClick={() => {
@@ -94,7 +111,7 @@ function App() {
             contract: "BTC_USDT",
             price: "13458.9",
             size: -10000,
-            user_id: 12
+            user_id: parseInt(userId)
           }
 
           // withdraw的交易体
@@ -111,8 +128,24 @@ function App() {
            * @return {String} signature
            */
           // 3. 用户下单、撤单、提现时，调用sdk进行交易签名，将生成的sign字段加入交易体传送给后端
-          const signature = gateWallet.getSignature(tx, 'cancelOrder')
+          const signature = gateWallet.getSignature(tx, 'order')
           console.log(signature, 'signature')
+
+          const option = {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-gate-user-id': userId
+            },
+            body: JSON.stringify({
+              signature: signature,
+              tx: tx,
+              type: 'order'
+            })
+          }
+
+          console.log(option)
+          fetch('http://127.0.0.1:3000/verify', option).then(res => res.json()).then(res => { alert(res) })
         }}>签名交易</button>
         <Connect />
       </div>
