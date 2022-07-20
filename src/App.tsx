@@ -3,7 +3,7 @@ import { HipoContract } from 'hipo-contract'
 import { createContext, useEffect, useMemo, useState } from 'react';
 import './App.css';
 import { Connect } from './Connect';
-import _ from 'lodash'
+import _, { chain } from 'lodash'
 
 
 export function useHooks(type: string) {
@@ -28,8 +28,9 @@ function App() {
   const account = useAccount()
   // const [gateWallet, setGateWallet] = useState(null)
   const [contract, setContract] = useState<HipoContract | null>(null)
-
-  const [userId, setUserId] = useState('5')
+  // TODO 已经 完成user_id 和 address 绑定
+  const [userId, setUserId] = useState('10')
+  const [type, setType ] = useState('withdraw')
 
   const value: HipoWalletContextProps = {
     walletType,
@@ -94,12 +95,14 @@ function App() {
               },
               body: JSON.stringify({
                 signature: accountSignature.signature,
-                BJJKey: accountSignature.BJJKey
+                BJJKey: accountSignature.BJJKey,
+                chainId: chainId,
+                address: account
               })
             }
 
             console.log(option)
-            fetch('http://127.0.0.1:3000/bind', option).then(res => res.json())
+            fetch('http://127.0.0.1:3000/address/verify', option).then(res => res.json())
           }
         }}>根据签名生成本地钱包</button>
         <button onClick={() => {
@@ -107,18 +110,18 @@ function App() {
           const gateWallet = contract?.getGateWallet()
 
           // order,cancelOrder的交易体
-          const tx = {
-            contract: "BTC_USDT",
-            price: "13458.9",
-            size: -10000,
-            user_id: parseInt(userId)
-          }
+          // const tx = {
+          //   contract: "BTC_USDT",
+          //   price: "13458.9",
+          //   size: -10000,
+          //   user_id: parseInt(userId)
+          // }
 
           // withdraw的交易体
-          // const tx = {
-          //   user_id: 12,
-          //   amount: 10000
-          // }
+          const tx = {
+            user_id: parseInt(userId),
+            amount: 10000
+          }
 
 
           /**
@@ -128,7 +131,7 @@ function App() {
            * @return {String} signature
            */
           // 3. 用户下单、撤单、提现时，调用sdk进行交易签名，将生成的sign字段加入交易体传送给后端
-          const signature = gateWallet.getSignature(tx, 'order')
+          const signature = gateWallet.getSignature(tx, type)
           console.log(signature, 'signature')
 
           const option = {
@@ -140,7 +143,7 @@ function App() {
             body: JSON.stringify({
               signature: signature,
               tx: tx,
-              type: 'order'
+              type: type
             })
           }
 
