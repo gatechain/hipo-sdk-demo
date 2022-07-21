@@ -12,7 +12,8 @@ export const config = {
       },
       contractRightMap: {
         USDC: 0,
-        USDT: 1
+        USDT: 1,
+        USD: 2
       }
     }
 	},

@@ -30,7 +30,7 @@ function App() {
   const [contract, setContract] = useState<HipoContract | null>(null)
   // TODO 已经 完成user_id 和 address 绑定
   const [userId, setUserId] = useState('10')
-  const [type, setType ] = useState('withdraw')
+  const [type, setType] = useState('order')
 
   const value: HipoWalletContextProps = {
     walletType,
@@ -93,12 +93,15 @@ function App() {
                 'Content-Type': 'application/json',
                 'x-gate-user-id': userId
               },
-              body: JSON.stringify({
-                signature: accountSignature.signature,
-                BJJKey: accountSignature.BJJKey,
-                chainId: chainId,
-                address: account
-              })
+              body: JSON.stringify(
+                // {"signature":"0x003eac2b5f07d7fd6315c142106c2e948d7db0c06cadc651b5210e83cc250e69336aad3d3b48227018fd6e473a6aaa641b96b9cb346c57fdf1e37e4530bbf02d1c","BJJKey":"0x17547196c961f17527b413fdce6fbbd524e42c0f4b4618a5d49a6046aa86d8bb","chainId":"85","address":"0x6ac228df143dbd9a6ff86a2a9cf3b9968059d517"}
+                {
+                  signature: accountSignature.signature,
+                  BJJKey: accountSignature.BJJKey,
+                  chainId: chainId,
+                  address: account
+                }
+              )
             }
 
             console.log(option)
@@ -117,11 +120,18 @@ function App() {
           //   user_id: parseInt(userId)
           // }
 
-          // withdraw的交易体
           const tx = {
-            user_id: parseInt(userId),
-            amount: 10000
+            "contract": "BTC_USD",
+            "price": "13458.9",
+            "size": '10',
+            "user_id": userId
           }
+
+          // withdraw的交易体
+          // const tx = {
+          //   user_id: parseInt(userId),
+          //   amount: 10000
+          // }
 
 
           /**
