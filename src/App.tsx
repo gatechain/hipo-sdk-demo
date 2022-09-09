@@ -4,12 +4,42 @@ import { createContext, useEffect, useMemo, useState } from 'react';
 import './App.css';
 import { Connect } from './Connect';
 import _, { chain } from 'lodash'
+import * as ethers from 'ethers'
 
 
 export function useHooks(type: string) {
   return useMemo(() => {
     return HipoWallet.getHooks(type as any)
   }, [type])
+}
+
+function unAddress(BJJKey: string, signature: string) {
+  console.log(BJJKey, 'BJJKey')
+  console.log(signature, 'signature')
+
+  const chainId = 85
+  const value = {
+    Provider: "GateChain Network",
+    Authorisation: "Account creation",
+    BJJKey: BJJKey,
+  }
+
+  const domain = {
+    name: value.Provider,
+    version: '1',
+    chainId: chainId,
+    verifyingContract: '0x609d24024F3DFe4cB5021A2686b8B67c3db6A0dd'
+  }
+  const types = {
+    Authorise: [
+      { name: 'Provider', type: 'string' },
+      { name: 'Authorisation', type: 'string' },
+      { name: 'BJJKey', type: 'bytes32' }
+    ]
+  }
+
+  const address = ethers.utils.verifyTypedData(domain, types, value, signature)
+  console.log(address, 'address --- unAddress ')
 }
 
 interface HipoWalletContextProps {
@@ -29,7 +59,7 @@ function App() {
   // const [gateWallet, setGateWallet] = useState(null)
   const [contract, setContract] = useState<HipoContract | null>(null)
   // TODO 已经 完成user_id 和 address 绑定
-  const [userId, setUserId] = useState('10')
+  const [userId, setUserId] = useState('2')
   const [type, setType] = useState('order')
 
   const value: HipoWalletContextProps = {
@@ -44,6 +74,8 @@ function App() {
     const privateKeyHex = localStorage.getItem(`privateKeyHex_${account}`)
     privateKeyHex && contract?.createWalletFromGateChainAccount(privateKeyHex)
   }, [contract])
+
+
 
   return (
     <HipoWalletContext.Provider value={value}>
@@ -104,8 +136,12 @@ function App() {
               )
             }
 
-            console.log(option)
-            fetch('http://127.0.0.1:3000/address/verify', option).then(res => res.json())
+
+            // unAddress(accountSignature.BJJKey, accountSignature.signature)
+
+            // console.log(option)
+            // fetch('http://139.162.71.94:9582/address/verify', option).then(res => res.json())
+            fetch('http://127.0.0.1:9582/address/verify', option).then(res => res.json())
           }
         }}>根据签名生成本地钱包</button>
         <button onClick={() => {
@@ -158,7 +194,7 @@ function App() {
           }
 
           console.log(option)
-          fetch('http://127.0.0.1:3000/verify', option).then(res => res.json()).then(res => { alert(res) })
+          fetch('http://127.0.0.1:9582/verify', option).then(res => res.json()).then(res => { alert(res) })
         }}>签名交易</button>
         <Connect />
       </div>

@@ -6248,12 +6248,14 @@ ffjavascript@0.2.22:
     wasmcurves "0.0.12"
     worker-threads "^1.0.0"
 
-ffjavascript@^0.1.0:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/ffjavascript/-/ffjavascript-0.1.3.tgz#75d5397f5da0af977d6f38b60301d4de25f17040"
-  integrity sha512-eAeIowhX8JB7scNMw3OgY2ecIlhmx7qPS/AJ7wW8ue6mv6/Wqm3o67CSdT6yuzeJaGoqo9FhoTFj8QiSz5MfGg==
+ffjavascript@^0.2.35:
+  version "0.2.56"
+  resolved "https://registry.yarnpkg.com/ffjavascript/-/ffjavascript-0.2.56.tgz#3509f98fcbd3e44ea93cd23519071b76d6eae433"
+  integrity sha512-em6G5Lrj7ucIqj4TYEgyoHs/j99Urwwqa4+YxEVY2hggnpRimVj+noX5pZQTxI1pvtiekZI4rG65JBf0xraXrg==
   dependencies:
-    big-integer "^1.6.48"
+    wasmbuilder "0.0.16"
+    wasmcurves "0.2.0"
+    web-worker "^1.2.0"
 
 ffwasm@0.0.7:
   version "0.0.7"
@@ -6503,17 +6505,17 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-gatewallet@^1.0.16:
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/gatewallet/-/gatewallet-1.0.16.tgz#ed8f6e45775e81c141278694724f75252de383f3"
-  integrity sha512-g4GlGFqWHNtVbY0KRkHgp/oRATs13/ROqTfnhw6zjz0ogvve0KL3CwLLkBN957vUgJbkZBDulKnELOIEijPbrg==
+gatewallet@^1.0.19:
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/gatewallet/-/gatewallet-1.0.19.tgz#4f07f98cc6ec78090d0bb4a43899658f4855ee6c"
+  integrity sha512-M95VZS9UWPtwB6yCHznnuLBU8B44A/6hu+K2r/E5PN6/DxyIfhaMxjFZbA6JaAvQhYhXpiggKouPLXZfUAZc2Q==
   dependencies:
     "@babel/polyfill" "^7.12.1"
     assert "^2.0.0"
     base64url "^3.0.1"
     circomlib "0.5.2"
     ethers "^5.5.1"
-    ffjavascript "^0.1.0"
+    ffjavascript "^0.2.35"
     js-sha3 "^0.8.0"
 
 gensync@^1.0.0-beta.2:
@@ -6782,13 +6784,13 @@ he@^1.2.0:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hipo-contract@^1.0.21:
-  version "1.0.21"
-  resolved "https://registry.yarnpkg.com/hipo-contract/-/hipo-contract-1.0.21.tgz#e7b02c872008769dd90bfc29dba43b01426e1891"
-  integrity sha512-uagd+9ETPKvuhxayGYViClC0hJP9pMvI8TEAxwL0OxI3pGUONs0LNpNcRO+5kJQj72q/TlOzcVqS2QWNd37jxw==
+hipo-contract@^1.0.23:
+  version "1.0.23"
+  resolved "https://registry.yarnpkg.com/hipo-contract/-/hipo-contract-1.0.23.tgz#66d4868678dbd5c68753a5849682f754b1243255"
+  integrity sha512-L6yMj0uugvwBagFFSeOUT94blHeEXwPlVhAx1sXaEZR4NeigdmSIT9XN6ruw0xGQ2BE80N30zL3pHoUjEN9bpw==
   dependencies:
     ethers "^5.5.4"
-    gatewallet "^1.0.16"
+    gatewallet "^1.0.19"
 
 hipo-wallet@^1.0.4:
   version "1.0.4"
@@ -11715,6 +11717,11 @@ wasmbuilder@0.0.10:
   dependencies:
     big-integer "^1.6.48"
 
+wasmbuilder@0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/wasmbuilder/-/wasmbuilder-0.0.16.tgz#f34c1f2c047d2f6e1065cbfec5603988f16d8549"
+  integrity sha512-Qx3lEFqaVvp1cEYW7Bfi+ebRJrOiwz2Ieu7ZG2l7YyeSJIok/reEQCQCuicj/Y32ITIJuGIM9xZQppGx5LrQdA==
+
 wasmcurves@0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/wasmcurves/-/wasmcurves-0.0.12.tgz#1496e2219ac07f9a420f527803ae13b1d7a89246"
@@ -11730,6 +11737,13 @@ wasmcurves@0.0.5:
   dependencies:
     big-integer "^1.6.42"
     blakejs "^1.1.0"
+
+wasmcurves@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/wasmcurves/-/wasmcurves-0.2.0.tgz#ccfc5a7d3778b6e0768b82a9336c80054f9bc0cf"
+  integrity sha512-3e2rbxdujOwaod657gxgmdhZNn+i1qKdHO3Y/bK+8E7bV8ttV/fu5FO4/WLBACF375cK0QDLOP+65Na63qYuWA==
+  dependencies:
+    wasmbuilder "0.0.16"
 
 watchpack@^2.3.1:
   version "2.3.1"
@@ -11750,6 +11764,11 @@ web-vitals@^2.1.0:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-2.1.4.tgz#76563175a475a5e835264d373704f9dde718290c"
   integrity sha512-sVWcwhU5mX6crfI5Vd2dC4qchyTqxV8URinzt25XqVh+bHEPGH4C3NPrNionCP7Obx59wrYEbNlw4Z8sjALzZg==
+
+web-worker@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/web-worker/-/web-worker-1.2.0.tgz#5d85a04a7fbc1e7db58f66595d7a3ac7c9c180da"
+  integrity sha512-PgF341avzqyx60neE9DD+XS26MMNMoUQRz9NOZwW32nPQrF6p77f1htcnjBSEV8BGMKZ16choqUG4hyI0Hx7mA==
 
 web3-utils@^1.3.0:
   version "1.7.3"
