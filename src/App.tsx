@@ -156,20 +156,37 @@ function App() {
           //   user_id: parseInt(userId)
           // }
 
-          const tx = {
-            "contract": "BTC_USD",
-            "price": "13458.9",
-            "size": '10',
-            "user_id": userId
-          }
+          // const tx = {
+          //   "contract": "BTC_USD",
+          //   "price": "13458.9",
+          //   "size": '10',
+          //   "user_id": userId
+          // }
 
           // withdraw的交易体
           // const tx = {
           //   user_id: parseInt(userId),
           //   amount: 10000
           // }
+          // const tx = {
+          //   user_id: 1,
+          //   contract: 'BTC_USD',
+          //   price: '21052.4',
+          //   size: 1000,
+          // }
 
+          const tx = {
+            user_id: 11,
+            contract: 'ETH_USD',
+            price: '0',
+            size: -5,
+          }
+        //   const tx = {
+        //     "amount": "10",
+        //     "user_id": "2"
+        //  }
 
+        //   const type = 'withdraw'
           /**
            * @param {Object} tx - 交易体
            * @param {String} type - order,cancelOrder,withdraw 
@@ -179,6 +196,9 @@ function App() {
           // 3. 用户下单、撤单、提现时，调用sdk进行交易签名，将生成的sign字段加入交易体传送给后端
           const signature = gateWallet.getSignature(tx, type)
           console.log(signature, 'signature')
+
+          const hash = gateWallet.buildTransactionHashMessage(tx, type)
+          console.log(hash, 'hash')
 
           const option = {
             method: 'post',
@@ -194,7 +214,7 @@ function App() {
           }
 
           console.log(option)
-          fetch('http://127.0.0.1:9582/verify', option).then(res => res.json()).then(res => { alert(res) })
+          // fetch('http://127.0.0.1:9582/verify', option).then(res => res.json()).then(res => { alert(res) })
         }}>签名交易</button>
         <Connect />
       </div>
